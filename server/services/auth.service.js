@@ -1,12 +1,14 @@
 //just js file that exports all the function
 const {User} = require('../models/user');
+const httpStatus = require('http-status');
+const {ApiError} = require('../middleware/apiError');
 
 
 const createUser = async(email,password)=>{
     try {
 
         if(await User.emailTaken(email)){
-            console.log('Email already on DB');
+            throw new ApiError(httpStatus.BAD_REQUEST,'Sorry email taken')
             // throw error;
         }
 
@@ -25,6 +27,16 @@ const createUser = async(email,password)=>{
 const genAuthToken = (user) =>{
     const token = user.generateAuthToken();
     return token;
+}
+
+const signInWithEmailAndPassword = async(email,password)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+
+
 }
 
 module.exports = {

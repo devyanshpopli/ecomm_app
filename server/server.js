@@ -6,6 +6,8 @@ const xss = require('xss-clean'); //middleware that prevents from the people for
 const mongoSanitize = require('express-mongo-sanitize');
 const routes = require('./routes');
 
+const {handleError,convertToApiError} = require('./middleware/apiError');
+
 
 
 const mongoUri = `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASS}@cluster0.7hix8bo.mongodb.net/?retryWrites=true&w=majority`
@@ -25,6 +27,13 @@ app.use(mongoSanitize())
 
 //routes
 app.use('/api',routes)
+
+
+app.use(convertToApiError);
+///handle errors
+app.use((err,req,res,next)=>{
+    handleError(err,res);
+})
 
 
 
